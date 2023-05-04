@@ -25,8 +25,6 @@ void CPU_TS_TmrInit(void)
     DWT_CR |= (uint32_t)DWT_CR_CYCCNTENA;
 }
 
-/**
-
 uint32_t CPU_TS_TmrRd(void)
 {        
   return ((uint32_t)DWT_CYCCNT);
