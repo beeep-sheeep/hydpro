@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\..\Output\</OutputDirectory>
-          <OutputName>MultiMQ8</OutputName>
+          <OutputName>hydrogen</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\adc;..\..\User\lcd;..\..\User\flash;..\..\User\beep;..\..\User\ESP8266;..\..\User\dwt_delay;..\..\User\Common;..\..\User\system;..\..\User\SysTick</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\adc;..\..\User\lcd;..\..\User\flash;..\..\User\beep;..\..\User\ESP8266;..\..\User\dwt_delay;..\..\User\Common;..\..\User\system;..\..\User\SysTick;..\..\User\led;..\..\User\FATFS\option;..\..\User\FATFS;..\..\User\sdio;..\..\User\key</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -621,6 +621,46 @@
               <FileName>Common.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\Common\Common.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\led\bsp_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sdio_sdcard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\sdio\bsp_sdio_sdcard.c</FilePath>
+            </File>
+            <File>
+              <FileName>sdio_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\sdio\sdio_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\key\key.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Fatfs</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>cc936.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\option\cc936.c</FilePath>
             </File>
           </Files>
         </Group>

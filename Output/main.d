@@ -41,5 +41,10 @@
 ..\..\output\main.o: ..\..\User\ESP8266\bsp_esp8266_test.h
 ..\..\output\main.o: ..\..\User\adc\bsp_adc.h
 ..\..\output\main.o: ..\..\User\beep\bsp_beep.h
+..\..\output\main.o: ..\..\User\led\bsp_led.h
+..\..\output\main.o: ..\..\User\key\key.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\..\output\main.o: ..\..\User\./dwt_delay/core_delay.h
+..\..\output\main.o: ..\..\User\FATFS\ff.h
+..\..\output\main.o: ..\..\User\FATFS\integer.h
+..\..\output\main.o: ..\..\User\FATFS\ffconf.h
