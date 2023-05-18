@@ -37,4 +37,3 @@
 ..\..\output\stm32f10x_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\..\output\stm32f10x_it.o: ..\..\User\ESP8266\bsp_esp8266_test.h
 ..\..\output\stm32f10x_it.o: ..\..\User\usart\bsp_usart.h
-..\..\output\stm32f10x_it.o: ..\..\User\sdio\bsp_sdio_sdcard.h

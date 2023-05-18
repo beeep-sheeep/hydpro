@@ -16,7 +16,7 @@
 
 
 
-/******************************* ESP8266 data type define ***************************/
+/******************************* ESP8266 数据类型定义 ***************************/
 typedef enum{
 	STA,
   AP,
@@ -50,10 +50,10 @@ typedef enum{
 
 
 
-/******************************* ESP8266 external global ***************************/
-#define RX_BUF_MAX_LEN     1024                                     
+/******************************* ESP8266 外部全局变量声明 ***************************/
+#define RX_BUF_MAX_LEN     1024                                     //最大接收缓存字节数
 
-extern struct  STRUCT_USARTx_Fram                                  
+extern struct  STRUCT_USARTx_Fram                                  //串口数据帧的处理结构体
 {
 	char  Data_RX_BUF [ RX_BUF_MAX_LEN ];
 	
@@ -69,7 +69,7 @@ extern struct  STRUCT_USARTx_Fram
 
 extern struct STRUCT_USARTx_Fram strUSART_Fram_Record;
 
-/******************************** ESP8266 pin define ***********************************/
+/******************************** ESP8266 连接引脚定义 ***********************************/
 #define      macESP8266_CH_PD_APBxClock_FUN                   RCC_APB2PeriphClockCmd
 #define      macESP8266_CH_PD_CLK                             RCC_APB2Periph_GPIOB  
 #define      macESP8266_CH_PD_PORT                            GPIOB
@@ -111,7 +111,7 @@ extern struct STRUCT_USARTx_Fram strUSART_Fram_Record;
 
 
 
-/****************************************** ESP8266 function declare ***********************************************/
+/****************************************** ESP8266 函数声明 ***********************************************/
 void                     ESP8266_Init                        ( void );
 void                     ESP8266_Rst                         ( void );
 bool                     ESP8266_Cmd                         ( char * cmd, char * reply1, char * reply2, u32 waittime );

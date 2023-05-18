@@ -31,7 +31,6 @@
 #include "bsp_esp8266.h"
 #include "bsp_esp8266_test.h"
 #include "bsp_usart.h"
-#include "bsp_sdio_sdcard.h"	
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -213,20 +212,6 @@ void macESP8266_USART_INT_FUN ( void )
   }	
 
 }
-
-/*
- * 函数名：SDIO_IRQHandler
- * 描述  ：在SDIO_ITConfig(）这个函数开启了sdio中断	，
- *		     数据传输结束时产生中断
- * 输入  ：无		 
- * 输出  ：无
- */
-void SDIO_IRQHandler(void) 
-{
-  /* Process All SDIO Interrupt Sources */
-  SD_ProcessIRQSrc();
-}
-
 
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

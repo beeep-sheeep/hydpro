@@ -7,22 +7,22 @@
 
 
 
-/********************************** parmeters**********************************/
-#define      macUser_ESP8266_ApSsid                       "Impart 303"                //wifi
-#define      macUser_ESP8266_ApPwd                        "Zyf0623.."           //password
+/********************************** 用户需要设置的参数**********************************/
+#define      macUser_ESP8266_ApSsid                       "Impart 303"                //要连接的热点的名称
+#define      macUser_ESP8266_ApPwd                        "Zyf0623.."           //要连接的热点的密钥
 
-#define      macUser_ESP8266_TcpServer_IP                 "192.168.31.27"      //host IP
-#define      macUser_ESP8266_TcpServer_Port               "2668"               //host port
+#define      macUser_ESP8266_TcpServer_IP                 "192.168.31.27"      //要连接的服务器的 IP
+#define      macUser_ESP8266_TcpServer_Port               "2668"               //要连接的服务器的端口
 
 
  
-/********************************** external variable***************************************/
+/********************************** 外部全局变量 ***************************************/
 extern volatile uint8_t ucTcpClosedFlag;
 extern int read_dht11_finish;
 
 
 
-/********************************** test functions ***************************************/
+/********************************** 测试函数声明 ***************************************/
 void ESP8266_StaTcpClient_Unvarnish_ConfigTest(void);
 //void ESP8266_SendDHT11DataTest(void);
 

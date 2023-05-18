@@ -6,53 +6,66 @@
 #include "./font/fonts.h"
 
 
+/***************************************************************************************
+2^26 =0X0400 0000 = 64MB,每个 BANK 有4*64MB = 256MB
+64MB:FSMC_Bank1_NORSRAM1:0X6000 0000 ~ 0X63FF FFFF
+64MB:FSMC_Bank1_NORSRAM2:0X6400 0000 ~ 0X67FF FFFF
+64MB:FSMC_Bank1_NORSRAM3:0X6800 0000 ~ 0X6BFF FFFF
+64MB:FSMC_Bank1_NORSRAM4:0X6C00 0000 ~ 0X6FFF FFFF
 
-/******************************* ILI9341 FSMC parameter ***************************/
-//FSMC_Bank1_NORSRAM LCD command address
+选择BANK1-BORSRAM1 连接 TFT，地址范围为0X6000 0000 ~ 0X63FF FFFF
+FSMC_A16 接LCD的DC(寄存器/数据选择)脚
+寄存器基地址 = 0X60000000
+RAM基地址 = 0X60020000 = 0X60000000+2^16*2 = 0X60000000 + 0X20000 = 0X60020000
+当选择不同的地址线时，地址要重新计算  
+****************************************************************************************/
+
+/******************************* ILI9341 显示屏的 FSMC 参数定义 ***************************/
+//FSMC_Bank1_NORSRAM用于LCD命令操作的地址
 #define      FSMC_Addr_ILI9341_CMD         ( ( uint32_t ) 0x60000000 )
 
-//FSMC_Bank1_NORSRAM using for LCD data operate address      
+//FSMC_Bank1_NORSRAM用于LCD数据操作的地址      
 #define      FSMC_Addr_ILI9341_DATA        ( ( uint32_t ) 0x60020000 )
 
-//NOR/SRAM
+//由片选引脚决定的NOR/SRAM块
 #define      FSMC_Bank1_NORSRAMx           FSMC_Bank1_NORSRAM1
 
 
 
-/******************************* ILI9341 8080 pin ***************************/
-/******control signal line******/
-//select NOR/SRAM
+/******************************* ILI9341 显示屏8080通讯引脚定义 ***************************/
+/******控制信号线******/
+//片选，选择NOR/SRAM块
 #define      ILI9341_CS_CLK                RCC_APB2Periph_GPIOD   
 #define      ILI9341_CS_PORT               GPIOD
 #define      ILI9341_CS_PIN                GPIO_Pin_7
 
-//DCpin
+//DC引脚，使用FSMC的地址信号控制，本引脚决定了访问LCD时使用的地址
 //PD11为FSMC_A16
 #define      ILI9341_DC_CLK                RCC_APB2Periph_GPIOD   
 #define      ILI9341_DC_PORT               GPIOD
 #define      ILI9341_DC_PIN                GPIO_Pin_11
 
-//write enable
+//写使能
 #define      ILI9341_WR_CLK                RCC_APB2Periph_GPIOD   
 #define      ILI9341_WR_PORT               GPIOD
 #define      ILI9341_WR_PIN                GPIO_Pin_5
 
-//read enable
+//读使能
 #define      ILI9341_RD_CLK                RCC_APB2Periph_GPIOD   
 #define      ILI9341_RD_PORT               GPIOD
 #define      ILI9341_RD_PIN                GPIO_Pin_4
 
-//reset pin
+//复位引脚
 #define      ILI9341_RST_CLK               RCC_APB2Periph_GPIOE
 #define      ILI9341_RST_PORT              GPIOE
 #define      ILI9341_RST_PIN               GPIO_Pin_1
 
-//light pin
+//背光引脚
 #define      ILI9341_BK_CLK                RCC_APB2Periph_GPIOD    
 #define      ILI9341_BK_PORT               GPIOD
 #define      ILI9341_BK_PIN                GPIO_Pin_12
 
-/********data signal line***************/
+/********数据信号线***************/
 #define      ILI9341_D0_CLK                RCC_APB2Periph_GPIOD   
 #define      ILI9341_D0_PORT               GPIOD
 #define      ILI9341_D0_PIN                GPIO_Pin_14
@@ -117,54 +130,56 @@
 #define      ILI9341_D15_PORT               GPIOD
 #define      ILI9341_D15_PIN                GPIO_Pin_10
 
-/*************************************** debug ******************************************/
+/*************************************** 调试预用 ******************************************/
 #define      DEBUG_DELAY()                
 
-/***************************** ILI934 X label and Y label ***************************/
-#define      ILI9341_DispWindow_X_Star		    0     //X label start
-#define      ILI9341_DispWindow_Y_Star		    0     //Y label start
+/***************************** ILI934 显示区域的起始坐标和总行列数 ***************************/
+#define      ILI9341_DispWindow_X_Star		    0     //起始点的X坐标
+#define      ILI9341_DispWindow_Y_Star		    0     //起始点的Y坐标
 
-#define 			ILI9341_LESS_PIXEL	  							240			//height 
-#define 			ILI9341_MORE_PIXEL	 								320			//width
+#define 			ILI9341_LESS_PIXEL	  							240			//液晶屏较短方向的像素宽度
+#define 			ILI9341_MORE_PIXEL	 								320			//液晶屏较长方向的像素宽度
 
+//根据液晶扫描方向而变化的XY像素宽度
+//调用ILI9341_GramScan函数设置方向时会自动更改
 extern uint16_t LCD_X_LENGTH,LCD_Y_LENGTH; 
 
-//scan mode
-//value is from 0-7
+//液晶屏扫描模式
+//参数可选值为0-7
 extern uint8_t LCD_SCAN_MODE;
 
-/******************************* ILI934 common color ********************************/
-#define      BACKGROUND		                BLACK   //backgroud black
+/******************************* 定义 ILI934 显示屏常用颜色 ********************************/
+#define      BACKGROUND		                BLACK   //默认背景颜色
 
-#define      WHITE		 		                  0xFFFF	   //white
-#define      BLACK                         0x0000	   //black
-#define      GREY                          0xF7DE	   //gray
-#define      BLUE                          0x001F	   //blue 
-#define      BLUE2                         0x051F	   //light blue 
-#define      RED                           0xF800	   //red 
-#define      MAGENTA                       0xF81F	   //red purple
-#define      GREEN                         0x07E0	   //green
-#define      CYAN                          0x7FFF	   //blue green
-#define      YELLOW                        0xFFE0	   //yellow
+#define      WHITE		 		                  0xFFFF	   //白色
+#define      BLACK                         0x0000	   //黑色 
+#define      GREY                          0xF7DE	   //灰色 
+#define      BLUE                          0x001F	   //蓝色 
+#define      BLUE2                         0x051F	   //浅蓝色 
+#define      RED                           0xF800	   //红色 
+#define      MAGENTA                       0xF81F	   //红紫色，洋红色 
+#define      GREEN                         0x07E0	   //绿色 
+#define      CYAN                          0x7FFF	   //蓝绿色，青色 
+#define      YELLOW                        0xFFE0	   //黄色 
 #define      BRED                          0xF81F
 #define      GRED                          0xFFE0
 #define      GBLUE                         0x07FF
 
 
 
-/******************************* define ILI934 command ********************************/
-#define      CMD_SetCoordinateX		 		    0x2A	     //set X label
-#define      CMD_SetCoordinateY		 		    0x2B	     //set Y label
-#define      CMD_SetPixel		 		        0x2C	     //full pixel
+/******************************* 定义 ILI934 常用命令 ********************************/
+#define      CMD_SetCoordinateX		 		    0x2A	     //设置X坐标
+#define      CMD_SetCoordinateY		 		    0x2B	     //设置Y坐标
+#define      CMD_SetPixel		 		        0x2C	     //填充像素
 
 
-/* define LCD driver ID */
+/* 定义 LCD 驱动芯片 ID */
 #define     LCDID_UNKNOWN             0
 #define     LCDID_ILI9341             0x9341
 #define     LCDID_ST7789V             0x8552
 
 
-/********************************** declare ILI934 function ***************************************/
+/********************************** 声明 ILI934 函数 ***************************************/
 void                     ILI9341_Init                    ( void );
 uint16_t                 ILI9341_ReadID                 ( void );
 void                     ILI9341_Rst                     ( void );
@@ -195,19 +210,19 @@ void 											LCD_SetTextColor								(uint16_t Color)	;
 void 											LCD_SetColors										(uint16_t TextColor, uint16_t BackColor);
 void 											LCD_GetColors										(uint16_t *TextColor, uint16_t *BackColor);
 
-void ILI9341_DisplayStringEx(uint16_t x, 		//x
-																 uint16_t y, 				//y
-																 uint16_t Font_width,	//width
-																 uint16_t Font_Height,	//height
-																 uint8_t *ptr,					//str
-																 uint16_t DrawModel);  
+void ILI9341_DisplayStringEx(uint16_t x, 		//字符显示位置x
+																 uint16_t y, 				//字符显示位置y
+																 uint16_t Font_width,	//要显示的字体宽度，英文字符在此基础上/2。注意为偶数
+																 uint16_t Font_Height,	//要显示的字体高度，注意为偶数
+																 uint8_t *ptr,					//显示的字符内容
+																 uint16_t DrawModel);  //是否反色显示
 
-void ILI9341_DisplayStringEx_YDir(uint16_t x, 		
-																			 uint16_t y, 				
-																			 uint16_t Font_width,	
-																			 uint16_t Font_Height,	
-																			 uint8_t *ptr,					
-																			 uint16_t DrawModel);  
+void ILI9341_DisplayStringEx_YDir(uint16_t x, 		//字符显示位置x
+																			 uint16_t y, 				//字符显示位置y
+																			 uint16_t Font_width,	//要显示的字体宽度，英文字符在此基础上/2。注意为偶数
+																			 uint16_t Font_Height,	//要显示的字体高度，注意为偶数
+																			 uint8_t *ptr,					//显示的字符内容
+																			 uint16_t DrawModel);  //是否反色显示
 
 #endif /* __BSP_ILI9341_ILI9341_H */
 
