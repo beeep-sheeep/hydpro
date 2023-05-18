@@ -6,7 +6,7 @@
 
 
 //引脚定义
-#define KEY1_INT_GPIO_PORT         GPIOA 					//按键1 PA0
+#define KEY1_INT_GPIO_PORT         GPIOA 					//key1 PA0
 #define KEY1_INT_GPIO_CLK          (RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO)
 #define KEY1_INT_GPIO_PIN          GPIO_Pin_0
 #define KEY1_INT_EXTI_PORTSOURCE   GPIO_PortSourceGPIOA
@@ -17,7 +17,7 @@
 #define KEY1_IRQHandler            EXTI0_IRQHandler
 
 
-#define KEY2_INT_GPIO_PORT         GPIOC					//按键2 PC13
+#define KEY2_INT_GPIO_PORT         GPIOC					//key2 PC13
 #define KEY2_INT_GPIO_CLK          (RCC_APB2Periph_GPIOC|RCC_APB2Periph_AFIO)
 #define KEY2_INT_GPIO_PIN          GPIO_Pin_13
 

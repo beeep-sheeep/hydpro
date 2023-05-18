@@ -45,6 +45,7 @@
 ..\..\output\main.o: ..\..\User\key\key.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\..\output\main.o: ..\..\User\./dwt_delay/core_delay.h
+..\..\output\main.o: ..\..\User\./sdio/bsp_sdio_sdcard.h
 ..\..\output\main.o: ..\..\User\FATFS\ff.h
 ..\..\output\main.o: ..\..\User\FATFS\integer.h
 ..\..\output\main.o: ..\..\User\FATFS\ffconf.h
